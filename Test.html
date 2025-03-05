@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test de Amor</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .question {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .options button {
+            background-color: green;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 5px;
+        }
+        .options button:hover {
+            background-color: darkgreen;
+        }
+        .final-message {
+            font-size: 24px;
+            color: yellow;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="quiz-container">
+        <div class="question" id="question"></div>
+        <div class="options" id="options"></div>
+    </div>
+    <div class="final-message" id="final-message">Tan linda vos, te amo de aquí a la luna a pasitos de tortuga</div>
+
+    <script>
+        const questions = [
+            { text: "¿Me quieres?", options: ["Sí", "No"] },
+            { text: "Del 1 al 10, ¿cuánto me quieres?", options: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"] },
+            { text: "¿Me querrías si me bañara una vez a la semana?", options: ["Sí", "No"] },
+            { text: "Cuando nos veamos, ¿me llevarás al baño que está cerca de la catedral para tocarte ahí abajo?", options: ["Sí", "No"] }
+        ];
+        
+        let currentQuestion = 0;
+        const answers = [];
+        const questionElement = document.getElementById("question");
+        const optionsElement = document.getElementById("options");
+        const finalMessage = document.getElementById("final-message");
+
+        function loadQuestion() {
+            if (currentQuestion < questions.length) {
+                questionElement.textContent = questions[currentQuestion].text;
+                optionsElement.innerHTML = "";
+                
+                questions[currentQuestion].options.forEach(option => {
+                    const button = document.createElement("button");
+                    button.textContent = option;
+                    button.onclick = () => selectAnswer(option);
+                    optionsElement.appendChild(button);
+                });
+            } else {
+                showFinalMessage();
+            }
+        }
+        
+        function selectAnswer(answer) {
+            answers.push({ question: questions[currentQuestion].text, answer });
+            currentQuestion++;
+            loadQuestion();
+        }
+        
+        function showFinalMessage() {
+            document.getElementById("quiz-container").style.display = "none";
+            finalMessage.style.display = "block";
+            console.log("Respuestas:", answers); // Puedes modificar esto para enviar respuestas a un servidor
+        }
+        
+        loadQuestion();
+    </script>
+</body>
+</html>
